@@ -7,13 +7,13 @@ async function main() {
     try {
         await mongoose.connect(process.env.dbUrl);
         console.log('@mongoose try')
-        // console.log('@mongoose try', mongoose.model('users'))
+        console.log(process.env.dbUrl)
     } catch (error) {
         console.log('#error', error)
     }
 
     mongoose.connection.on('connected', () => {
-        console.log('connected')
+        console.log('connected: 몽고디비 연결')
     })
 
     mongoose.connection.on('error', (error) => {
@@ -22,7 +22,6 @@ async function main() {
 
     mongoose.connection.on('disconnected', () => {
         console.error('몽고디비 연결이 끊겼습니다. 연결을 재시도합니다.');
-        connect(); // 연결 재시도
     });
 
 }
