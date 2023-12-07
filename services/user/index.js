@@ -1,3 +1,12 @@
+const User = require('../../schemas/users')
+
+async function checkUser (){
+    const foundUser = await User.findOne({ age: 26}).exec()    
+    console.log('#foundUser', foundUser)
+}
+
+checkUser()
+
 async function getUsers(req, res) {
     res.send([
         {
