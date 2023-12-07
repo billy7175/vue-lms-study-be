@@ -2,13 +2,10 @@ const mongoose = require('mongoose')
 
 main().catch(err => console.log(err));
 
-console.log("#env test", process.env.dbUrl)
 async function main() {
-    const dbUrl = 'test'
-    console.log('#start main')
 
     try {
-        await mongoose.connect(dbUrl);
+        await mongoose.connect(process.env.dbUrl);
         console.log('@mongoose try')
         // console.log('@mongoose try', mongoose.model('users'))
     } catch (error) {
