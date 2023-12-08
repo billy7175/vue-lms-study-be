@@ -1,3 +1,6 @@
+const User = require('../../schemas/users')
+
+
 
 async function getUsers(req, res) {
     res.send([
@@ -15,6 +18,29 @@ async function getUsers(req, res) {
     ])
 }
 
+async function login (req ,res){
+    const { email, password } = req.body
+    console.log('Clinet Body Data', req.body)
+    const existingUser = await User.findOne({
+        email,
+        password
+    }).exec()
+
+
+    console.log('#existingUser', existingUser)
+
+    if(existingUser) return res.status(200).send({
+        ok: true
+    })
+
+    return res.status(400).send({
+        code: 'IAM001',
+        message: 'Please check your account information'
+    })
+
+}
+
 module.exports = {
-    getUsers
+    getUsers,
+    login
 } 
