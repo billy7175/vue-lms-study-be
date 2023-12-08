@@ -5,6 +5,7 @@ const app = express()
 const http = require('http')
 const cors = require('cors') // cors
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const port = 3000
 const router = require('./routes/index.js')
 require('dotenv').config() // environment file
@@ -12,7 +13,12 @@ const connect = require('./schemas/index.js')
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()) // nodejs post request body params 를 받아요 
-app.use(cors())
+app.use(cookieParser())
+app.use(cors({
+    credentials: true,
+    origin: '*',
+    methods: ['GET', 'POST']
+}))
 app.use(router)
 connect()
 http.createServer(app).listen(port, () => {

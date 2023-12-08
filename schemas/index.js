@@ -5,9 +5,9 @@ main().catch(err => console.log(err));
 async function main() {
 
     try {
-        await mongoose.connect(process.env.dbUrl);
+        await mongoose.connect(process.env.DB_URL);
         console.log('@mongoose try')
-        console.log(process.env.dbUrl)
+        console.log(process.env.DB_URL)
     } catch (error) {
         console.log('#error', error)
     }

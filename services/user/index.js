@@ -1,4 +1,5 @@
 const User = require('../../schemas/users')
+const jwt = require('jsonwebtoken')
 
 
 
@@ -18,7 +19,7 @@ async function getUsers(req, res) {
     ])
 }
 
-async function login (req ,res){
+async function login(req, res) {
     const { email, password } = req.body
     console.log('Clinet Body Data', req.body)
     const existingUser = await User.findOne({
@@ -27,11 +28,34 @@ async function login (req ,res){
     }).exec()
 
 
-    console.log('#existingUser', existingUser)
 
-    if(existingUser) return res.status(200).send({
-        ok: true
-    })
+    if (existingUser) {
+        console.log('#user', existingUser)
+        console.log('#user_id', existingUser._id)
+        console.log('#user_id', existingUser._id.valueOf())
+
+        const token = jwt.sign({ email: existingUser.email }, process.env.JWT_SECRET, {
+            expiresIn: '7d'
+        })
+
+        console.log('#token', token)
+        res.cookie("teskToken", token, {
+            httpOnly: true,
+            maxAge: 3600000,
+
+        })
+        const user = {
+            _id: existingUser._id.valueOf(),
+            name: existingUser.name,
+            email: existingUser.email,
+        }
+        console.log('#existingUser', existingUser)
+
+        return res.json({
+            user: user,
+            token: token
+        })
+    }
 
     return res.status(400).send({
         code: 'IAM001',
