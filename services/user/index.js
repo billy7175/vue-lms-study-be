@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken')
 
 
 async function getUsers(req, res) {
+    res.cookie('tooto', '123123123', {
+        httpOnly:true
+    })
     res.send([
         {
             name: '둘리',
@@ -39,9 +42,8 @@ async function login(req, res) {
         })
 
         console.log('#token', token)
-        res.cookie("teskToken", token, {
+        res.cookie("token", token, {
             httpOnly: true,
-            maxAge: 3600000,
 
         })
         const user = {
