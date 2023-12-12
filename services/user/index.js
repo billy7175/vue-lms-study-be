@@ -4,10 +4,7 @@ const jwt = require('jsonwebtoken')
 
 
 async function getUsers(req, res) {
-    res.cookie('tooto', '123123123', {
-        httpOnly:true
-    })
-    res.send([
+    res.status(200).send([
         {
             name: '둘리',
             age: '2000',
