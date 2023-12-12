@@ -7,8 +7,8 @@ const cors = require('cors') // cors
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const port = 3000
-const router = require('./routes/index.js')
 require('dotenv').config() // environment file
+const router = require('./routes/index.js')
 const connect = require('./schemas/index.js')
 
 app.use(bodyParser.urlencoded({ extended: false }));
