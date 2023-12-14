@@ -39,10 +39,10 @@ async function login(req, res) {
         })
 
         console.log('#token', token)
-        res.cookie("token", token, {
-            httpOnly: true,
+        // res.cookie("token", token, {
+        //     httpOnly: true,
 
-        })
+        // })
         const user = {
             _id: existingUser._id.valueOf(),
             name: existingUser.name,
