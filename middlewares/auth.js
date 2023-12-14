@@ -5,8 +5,10 @@ const { expressjwt } = require("express-jwt");
 
 const requireSignin = expressjwt({
     getToken: (req, res) => {
-        console.log('#get-token')
-        return req.cookies.token
+        // console.log('#Authorization', req.headers.Authorization) // sent with Capital...
+        // return req.cookies.token
+        console.log('#authorization', req.headers.authorization) // recognized as Lower ??? 
+        return req.headers.authorization
     },
     secret: process.env.JWT_SECRET,
     algorithms: ["HS256"],
