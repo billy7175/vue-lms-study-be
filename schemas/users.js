@@ -19,6 +19,10 @@ const userSchema = new Schema(
     classTest: {
       type: ObjectId,
       ref: 'Classes'
+    },
+    role: {
+      type: String,
+      default: ''
     }
   }
   // { timestamps: true }
