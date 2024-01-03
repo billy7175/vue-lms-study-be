@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose;
+const { ObjectId } = Schema
+// const class = require('./classes')
 
 const userSchema = new Schema(
   {
@@ -13,6 +15,10 @@ const userSchema = new Schema(
       trim: true,
       required: true,
       unique: true,
+    },
+    classTest: {
+      type: ObjectId,
+      ref: 'Classes'
     }
   }
   // { timestamps: true }

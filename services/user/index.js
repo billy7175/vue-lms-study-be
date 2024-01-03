@@ -4,6 +4,28 @@ const jwt = require('jsonwebtoken')
 
 
 async function getUsers(req, res) {
+
+    const Users = await User.aggregate([
+        {
+            $match : {
+                name : 'test'
+            }
+        },
+        { $limit: 1 },
+        {
+            $lookup: {
+                from: "classes",
+                localField: 'classTest',
+                foreignField: "_id",
+                as: "follow"
+            }
+        },
+        
+    ])
+    console.log(12312312)
+    console.log(Users)
+    console.log(Users[0])
+
     res.status(200).send([
         {
             name: '둘리',

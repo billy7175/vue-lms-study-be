@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose;
 
-const userSchema = new Schema(
+const questionSchema = new Schema(
     {
         date: {
             type: Date,
@@ -29,4 +29,4 @@ const userSchema = new Schema(
     }
 );
 
-module.exports = mongoose.model("Question", userSchema);
+module.exports = mongoose.model("Question", questionSchema);
