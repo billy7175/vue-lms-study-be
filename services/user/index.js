@@ -43,31 +43,20 @@ async function getUsers(req, res) {
 
 async function login(req, res) {
     const { email, password } = req.body
-    console.log('Clinet Body Data', req.body)
     const existingUser = await User.findOne({
         email,
         password
     }).exec()
 
-
-
     if (existingUser) {
-        console.log('#user', existingUser)
-        console.log('#user_id', existingUser._id)
-        console.log('#user_id', existingUser._id.valueOf())
-
         const token = jwt.sign({ email: existingUser.email }, process.env.JWT_SECRET, {
             expiresIn: '7d'
         })
-
-        console.log('#token', token)
         const user = {
             _id: existingUser._id.valueOf(),
             name: existingUser.name,
             email: existingUser.email,
         }
-        console.log('#existingUser', existingUser)
-
         return res.json({
             user: user,
             token: token
