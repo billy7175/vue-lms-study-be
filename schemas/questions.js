@@ -3,29 +3,35 @@ const { Schema } = mongoose;
 
 const questionSchema = new Schema(
     {
-        date: {
-            type: Date,
-            trim: true,
-            required: true,
-        },
-        title: {
+        question : {
             type: String,
-            trim: true,
-            required: true,
-            // unique: true,
+            trim:true,
+            required:true
+        },
+        answer : {
+            type: Object,
+            required: true
+        },
+        options: {
+            type: Array,
+            required:true,
+        },
+        userSelectedAnswer : {
+            type: Object,
+        },
+        isSubmitted: {
+            type: Boolean
+        },
+        isReleased: {
+            type: Boolean
+        },
+        scheduledDate : {
+            type: Date
         },
         memo: {
             type: String,
             trim: true,
-            required: true,
-            unique: true,
         },
-        questions: {
-            type: Array,
-            trim: true,
-            required: true,
-            unique: true,
-        }
     }
 );
 
