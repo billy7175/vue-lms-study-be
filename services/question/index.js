@@ -1,10 +1,17 @@
 const Question = require('../../schemas/questions')
+const QuestionBoard = require('../../schemas/questionBoards')
 
 
 async function getQuestions(req, res) {
     const questions = await Question.find({}).exec()
     return res.json(questions)
 }
+
+async function getQuestionBoards (req, res) {
+    const questionBoards = await QuestionBoard.find({}).exec()
+    return res.json(questionBoards)
+}
+
 async function createQuestion(req, res) {
     try {
         const requestBody = req.body
@@ -20,7 +27,28 @@ async function createQuestion(req, res) {
     }
 }
 
+async function createQuestionBoard  (req, res){
+    try {
+        const requestBody = req.body
+        const newItem = await QuestionBoard.create(requestBody)
+        return res.json(newItem)
+    } catch(error){
+        console.log('#Error: createQuestionBoard', error)
+        return res.status(400).send({
+            code: 'QB001',
+            ...error
+        })
+    }
+}
+
+async function getQuestionBoardByDate() {
+    return true
+}
+
 module.exports = {
     getQuestions,
-    createQuestion
+    getQuestionBoards,
+    createQuestion,
+    createQuestionBoard,
+    getQuestionBoardByDate
 } 
