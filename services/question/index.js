@@ -64,11 +64,23 @@ async function getQuestionBoardByDate() {
     return true
 }
 
+async function deleteQuestionById(req, res) {
+    try {
+        const questionId = req.params.id;
+        await Question.findByIdAndDelete(questionId).exec();
+        return res.json({ message: 'Question deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting question by ID:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 module.exports = {
     getQuestionByDate,
     getQuestions,
     getQuestionBoards,
     createQuestion,
     createQuestionBoard,
-    getQuestionBoardByDate
+    getQuestionBoardByDate,
+    deleteQuestionById
 } 

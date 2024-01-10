@@ -22,9 +22,6 @@ async function getUsers(req, res) {
         },
         
     ])
-    console.log(12312312)
-    console.log(Users)
-    console.log(Users[0])
 
     res.status(200).send([
         {
