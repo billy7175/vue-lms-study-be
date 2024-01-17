@@ -44,7 +44,21 @@ async function createVocabularySheet(req, res) {
     }
 }
 
+async function getVocabularyById (req, res){
+    console.log('#getVocabularyById', req.params.id)
+    const id = req.params.id
+    const found = await VocabularySheet.findOne({ _id : id}).exec()
+    console.log('#found', found)
+    if(found){
+        return res.send(found)
+    } else {
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
+}
+
 module.exports = {
     getVocabularySheets,
-    createVocabularySheet
+    createVocabularySheet,
+    getVocabularyById
 }
