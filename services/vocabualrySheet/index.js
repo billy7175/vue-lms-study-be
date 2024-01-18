@@ -1,4 +1,6 @@
+const mongoose = require('mongoose')
 const VocabularySheet = require('../../schemas/vocabularySheet')
+const { findByIdAndUpdate } = require('../../schemas/users')
 
 async function getVocabularySheets(req, res) {
     const allSheets = await VocabularySheet.aggregate([
@@ -21,7 +23,7 @@ async function getVocabularySheets(req, res) {
                 register: { $arrayElemAt: ["$register", 0] }  // Take the first element if the array is not empty
             }
         },
-        
+
     ])
     return res.send(allSheets)
 }
@@ -44,21 +46,49 @@ async function createVocabularySheet(req, res) {
     }
 }
 
-async function getVocabularyById (req, res){
-    console.log('#getVocabularyById', req.params.id)
-    const id = req.params.id
-    const found = await VocabularySheet.findOne({ _id : id}).exec()
-    console.log('#found', found)
-    if(found){
+async function getVocabularyById(req, res) {
+    try {
+        const id = req.params.id
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ error: 'Invalid ObjectId format' });
+        const found = await VocabularySheet.findOne({ _id: id }).exec()
         return res.send(found)
-    } else {
+    } catch (error) {
+        console.log('#error: getVocabularyById', error)
         return res.status(500).json({ error: 'Internal Server Error' });
     }
-    
 }
+
+
+
+async function updateVocabularySheet(req, res) {
+    const id = req.params.id
+    const requestBody = req.body
+
+    try {
+        const updatedItem = await VocabularySheet.findByIdAndUpdate(id, requestBody, { new: true })
+        if (!updatedItem) {
+            return res.status(404).send({
+                ok: false,
+                error: "VocabularySheet not found"
+            });
+        }
+
+        return res.send(updatedItem);
+    } catch (error) {
+        return res.status(500).send({
+            ok: false,
+            error: "Internal Server Error"
+        });
+
+    }
+}
+
+
+
 
 module.exports = {
     getVocabularySheets,
+    getVocabularyById,
     createVocabularySheet,
-    getVocabularyById
+    updateVocabularySheet
 }
