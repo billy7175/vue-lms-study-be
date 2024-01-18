@@ -27,7 +27,15 @@ async function getQuestionByDate(req, res) {
 }
 
 async function getQuestionBoards(req, res) {
-    const questionBoards = await QuestionBoard.find({}).exec()
+    const cookieUser = req.cookies.user
+    const user = JSON.parse(cookieUser)
+    const role = user.role
+    const isTeacher = role === 'teacher'
+    let query = {}
+    if(!isTeacher) {
+        query = { isReleased : true}
+    }
+    const questionBoards = await QuestionBoard.find(query).exec()
     return res.json(questionBoards)
 }
 

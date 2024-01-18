@@ -53,6 +53,7 @@ async function login(req, res) {
             _id: existingUser._id.valueOf(),
             name: existingUser.name,
             email: existingUser.email,
+            role: existingUser.role
         }
         return res.json({
             user: user,
