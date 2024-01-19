@@ -12,12 +12,23 @@ async function getDashboard(req, res) {
         const teacherCount = users.filter(user => user.role === 'teacher').length;
         const classCount = classes.length;
         const questionCount = questions.length;
-
         const dashboardData = {
-            teacherCount,
-            studentCount,
-            classCount,
-            questionCount
+            teacher : {
+                label:'Teacher',
+                count :teacherCount
+            },
+            student : {
+                label: 'Student',
+                count : studentCount
+            },
+            class : {
+                label: 'Class',
+                count : classCount
+            },
+            question : {
+                label: 'Question',
+                count : questionCount
+            },
         };
 
         return res.status(200).json(dashboardData);
