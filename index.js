@@ -25,7 +25,7 @@ connect()
 const socketio = require("socket.io")
 const server = http.createServer(app)
 const io = socketio(server)
-const { addUser, removeUser } = require('./utils/users.js')
+const { addUser, removeUser, getUsers } = require('./utils/users.js')
 
 let count = 0
 let logginedInUser = []
@@ -48,7 +48,8 @@ io.on('connection', (socket) => {
     })
 
     socket.on('join', (option, callback) => {
-        const { error, user } = addUser({ id: socket.id, ...option })
+        const logginedInUser = { id: socket.id, ...option }
+        const { error, user } = addUser(logginedInUser)
         if (error) {
             return console.log(error)
         }
@@ -60,6 +61,12 @@ io.on('connection', (socket) => {
         const user = removeUser(socket.id);
         console.log('#socjasdas', user)
     });
+
+
+    socket.on('userlist', (res) => {
+        const users = getUsers()
+        socket.emit('userlist', users)
+    })
 });
 
 server.listen(port, () => {
