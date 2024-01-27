@@ -1,8 +1,6 @@
 const User = require('../../schemas/users')
 const jwt = require('jsonwebtoken')
 
-
-
 async function getUsers(req, res) {
     const Users = await User.aggregate([
         {
@@ -16,9 +14,14 @@ async function getUsers(req, res) {
                 from: "classes",
                 localField: 'classTest',
                 foreignField: "_id",
-                as: "follow"
+                as: "class"
             }
         },
+        {
+            $addFields : {
+                class:  { $arrayElemAt: ["$class", 0] }  // Take the first element if the array is not empty
+            }
+        }
         
     ])
 
