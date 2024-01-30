@@ -2,10 +2,18 @@ const users = [
     {
         id: 'asdadad',
         _id: 'asdasdasd',
-        name: 'asdasdasd',
+        name: 'student03',
         email: 'student01@test.com',
         role: 'student'
-    }
+    },
+    {
+        id: 'asdadad',
+        _id: 'asdasdasd',
+        name: 'student04',
+        email: 'student01@test.com',
+        role: 'student'
+    },
+    
 ]
 
 const addUser = (userInfo) => {
@@ -56,10 +64,24 @@ const getUsersInRoom = (room) => {
     return users.filter((user) => user.room === room)
 }
 
+const setUserActive = (socketId, bool) => {
+    const userIndex = users.findIndex((user) => user.id === socketId);
+
+    if (userIndex !== -1) {
+        users[userIndex].active = bool;
+        return { user: users[userIndex] };
+    } else {
+        return {
+            error: 'User not found with the provided socketId.'
+        };
+    }
+};
+
 module.exports = {
     addUser,
     removeUser,
     getUser,
     getUsers,
-    getUsersInRoom
+    getUsersInRoom,
+    setUserActive
 }
