@@ -31,6 +31,7 @@ const {
   getUser,
   getUsers,
   setUserActive,
+  testActivateUser
 } = require("./utils/users.js");
 
 let count = 0
@@ -76,27 +77,22 @@ io.on('connection', (socket) => {
 
   // socket.on('')
   socket.on("online", (message) => {
-    console.log('#START socket.on(online)')
     setUserActive(socket.id, true);
-    const user = getUser(socket.id)
-    console.log('user going online', socket.id)
-    console.log(user)
     const users = getUsers()
     socket.emit('userlist', users)
-    console.log('#END socket.on(online)')
   });
 
   socket.on("offline", (message) => {
-    console.log('#START socket.on(offline)')
     setUserActive(socket.id, false);
-    const user = getUser(socket.id)
-    console.log('user going offline' , socket.id)
-    console.log(user)
-
     const users = getUsers()
     socket.emit('userlist', users)
-    console.log('#END socket.on(offline)')
   });
+  
+  socket.on('activate-user', (bool = false) => {
+    testActivateUser(bool)
+    const users = getUsers()
+    socket.emit('userlist', users)
+  })
 });
 
 server.listen(port, () => {

@@ -1,19 +1,20 @@
 const users = [
     {
-        id: 'asdadad',
-        _id: 'asdasdasd',
+        id: 'student03',
+        _id: 'student03',
         name: 'student03',
         email: 'student01@test.com',
-        role: 'student'
+        role: 'student',
+        isActive: true
     },
     {
-        id: 'asdadad',
-        _id: 'asdasdasd',
+        id: 'student04',
+        _id: 'student04',
         name: 'student04',
         email: 'student01@test.com',
-        role: 'student'
-    },
-    
+        role: 'student',
+        isActive: true
+    }
 ]
 
 const addUser = (userInfo) => {
@@ -68,7 +69,7 @@ const setUserActive = (socketId, bool) => {
     const userIndex = users.findIndex((user) => user.id === socketId);
 
     if (userIndex !== -1) {
-        users[userIndex].active = bool;
+        users[userIndex].isActive = bool;
         return { user: users[userIndex] };
     } else {
         return {
@@ -77,11 +78,25 @@ const setUserActive = (socketId, bool) => {
     }
 };
 
+const testActivateUser = (socketId, bool) => {
+    const userIndex = users.findIndex((user) => user.isActive);
+    if (userIndex !== -1) {
+        users[userIndex].isActive = bool;
+        return { user: users[userIndex] };
+    } else {
+        return {
+            error: 'User not found with the provided socketId.'
+        };
+    }
+
+}
+
 module.exports = {
     addUser,
     removeUser,
     getUser,
     getUsers,
     getUsersInRoom,
-    setUserActive
+    setUserActive,
+    testActivateUser
 }
