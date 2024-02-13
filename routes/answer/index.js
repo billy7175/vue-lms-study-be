@@ -26,7 +26,6 @@ router.get('/api/answer/:id', requireSignin, async (req, res) => {
             error: 'asd'
         })
     }
-
 })
 
 router.post('/api/answer', requireSignin, async (req, res) => {
@@ -41,8 +40,6 @@ router.post('/api/answer', requireSignin, async (req, res) => {
             error: 'Internal Server Error.'
         })
     }
-
-
 })
 
 module.exports = router
