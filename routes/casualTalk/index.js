@@ -78,7 +78,7 @@ router.get("/api/casualtalks", requireSignin, async (req, res) => {
       .sort({ createdAt: -1 })
       .populate({
         path: "user",
-        select: "username email", // Select the fields you want to populate for main comments
+        select: "name email", // Select the fields you want to populate for main comments
       })
       .populate({
         path: "subComments",
@@ -87,7 +87,7 @@ router.get("/api/casualtalks", requireSignin, async (req, res) => {
         populate: {
           path: "user",
           model: "User", // Assuming "User" is your user model
-          select: "email username",
+          select: "name email",
         },
       })
       .limit(perPage)
@@ -120,6 +120,7 @@ router.post("/api/casualtalks", async (req, res) => {
   }
 });
 
+
 router.post("/api/casualtalks-sub", async (req, res) => {
   try {
     const { user, comment, parentId } = req.body;
@@ -131,6 +132,37 @@ router.post("/api/casualtalks-sub", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+router.delete('/api/casualtalks-sub/:id', async (req,res) => {
+  try {
+    // req.params.id에 해당하는 CasualTalk를 찾아 삭제합니다.
+    const deletedItem = await SubCasualTalk.findByIdAndDelete(req.params.id);
+    console.log('#deletedItem')
+    console.log(deletedItem)
+
+    // 성공적인 삭제 후 응답을 클라이언트에게 전송합니다.
+    res.status(200).send(deletedItem);
+  } catch (error) {
+    // 오류가 발생한 경우 오류 메시지를 클라이언트에게 전송합니다.
+    res.status(500).json({ error: '서버 오류 - CasualTalk 삭제에 실패했습니다.' });
+  }
+})
+
+router.delete('/api/casualtalks/:id', async (req, res) => {
+  try {
+    // req.params.id에 해당하는 CasualTalk를 찾아 삭제합니다.
+    const deletedItem = await CasualTalk.findByIdAndDelete(req.params.id);
+    console.log('#deletedItem')
+    console.log(deletedItem)
+    
+    // 성공적인 삭제 후 응답을 클라이언트에게 전송합니다.
+    res.status(200).send(deletedItem);
+  } catch (error) {
+    // 오류가 발생한 경우 오류 메시지를 클라이언트에게 전송합니다.
+    res.status(500).json({ error: '서버 오류 - CasualTalk 삭제에 실패했습니다.' });
   }
 });
 
