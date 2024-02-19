@@ -83,7 +83,7 @@ router.get("/api/casualtalks", requireSignin, async (req, res) => {
       .populate({
         path: "subComments",
         model: "SubCasualTalk", // Reference to the SubCasualTalk model
-        select: "createdAt updatedAt comment user", // Adjust the fields you want to include from SubComments
+        select: "createdAt updatedAt comment user parentId", // Adjust the fields you want to include from SubComments
         populate: {
           path: "user",
           model: "User", // Assuming "User" is your user model
@@ -125,6 +125,7 @@ router.post("/api/casualtalks-sub", async (req, res) => {
   try {
     const { user, comment, parentId } = req.body;
     const subComment = await SubCasualTalk.create({ user, comment, parentId });
+    subComment.populate("user", "email name");
     await CasualTalk.findByIdAndUpdate(parentId, {
       $push: { subComments: subComment._id },
     });
